@@ -1,0 +1,38 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+void main()=>
+    runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+        home:Myapp())
+    );
+
+class Myapp extends StatefulWidget {
+  const Myapp({Key key}) : super(key: key);
+
+  @override
+  _MyappState createState() => _MyappState();
+}
+
+class _MyappState extends State<Myapp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body:FutureBuilder(
+        future:DefaultAssetBundle.of(context).loadString("asset/new.json") ,
+        builder:(context,snapshot){
+          var take = json.decode(snapshot.data.toString());
+          return Center(
+            child: Text(
+              take["royal"]["name"],style: TextStyle(
+              color: Colors.blue,
+              fontSize: 40,
+            ),
+            ),
+          );
+        },
+      ) ,
+    );
+  }
+}
