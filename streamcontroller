@@ -1,0 +1,74 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+void main(){
+  runApp(MaterialApp(
+
+
+      home: Myapp()
+  ));
+}
+
+class Myapp extends StatefulWidget {
+  const Myapp({Key key}) : super(key: key);
+
+  @override
+  _MyappState createState() => _MyappState();
+}
+
+class _MyappState extends State<Myapp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("hari sir"),
+      ),
+      body: Home(
+
+      ),
+
+    );
+  }
+}
+class Home extends StatefulWidget {
+  const Home({Key key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  // ignore: close_sinks
+  final StreamController _streamController = StreamController();
+  addData() async{
+    for ( int i = 0; i<=10; i++ ) {
+      await Future.delayed(Duration(seconds:1),(){
+        _streamController.sink.add(i);
+      });
+
+    }
+  }
+  @override
+  void initState(){
+    super.initState();
+    addData();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: StreamBuilder(
+            stream: _streamController.stream,
+            builder: (context,snapshot) {
+              if (snapshot.hasError)
+                return Text("there is some error");
+
+              else if (snapshot.connectionState == ConnectionState.waiting)
+                return CircularProgressIndicator();
+              return Text("${snapshot.data}");
+
+
+            }
+
+        )
+    );
+  }
+}
